@@ -23,19 +23,15 @@ class _RegisterView extends StatelessWidget {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        
         child: SingleChildScrollView(
           child: Column(
-            
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               const FlutterLogo(size:500),//AQUI PONDRIAMOS EL QUERY DEL CONTEXT PARA EL TAMAÑO
-              const registerForm(),
+              const RegisterForm(),
               const SizedBox(
                 height: 20,
               ),
-
-              
             const SizedBox(
                 height: 20,
               ),
