@@ -8,5 +8,6 @@ class AppTheme {
         useMaterial3: true,
         colorSchemeSeed: seedColor,
         listTileTheme: const ListTileThemeData(iconColor: seedColor));
+        
   }
 }
