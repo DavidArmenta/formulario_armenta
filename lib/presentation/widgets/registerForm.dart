@@ -56,19 +56,19 @@ class _RegisterFormState extends State<RegisterForm> {
         onChanged: (value)=> password= value,
         obscureText: true,
         validator: (value){
-          if(value== null || value.trim().isEmpty){
-          return'campo requerido ';}
-          
+          if(value== null || value.trim().isEmpty)
+          {
+          return'campo requerido ';
+          }
           final emailRegExp = RegExp(
                 r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
               );
           if(!emailRegExp.hasMatch(value))
-          {return 'no tiene el formato requerido';}
+          {
+            return 'no tiene el formato requerido';
+          }
           return null; 
         },
-      ),
-      const SizedBox(
-        height: 20,
       ),
       const SizedBox(
         height: 20,
