@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formulario_armenta/presentation/helper/validadores.dart';
+import 'package:formulario_armenta/presentation/register/register_cubit.dart';
 import 'package:formulario_armenta/presentation/widgets/input/custom_text_form_field.dart';
 class RegisterForm extends StatefulWidget {
   const RegisterForm({super.key});
@@ -7,83 +10,77 @@ class RegisterForm extends StatefulWidget {
   State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
-  final GlobalKey<FormState> _fromkey = GlobalKey<FormState>();
+
+class _RegisterFormState extends State<RegisterForm> with Validadores {
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  
   String userName = '';
-  String email= '';
+  String email = '';
   String password = '';
+
   @override
   Widget build(BuildContext context) {
+    final RegisterCubit registerCubit = context.watch<RegisterCubit>();
     return Form(
-      key: _fromkey,
-      child: 
-      Column(
+      key: _formKey,
+      child: Column(
       children: [
-        CustomTextFormfield(
-        label: 'nombre del usuario',
-        onChanged: (value)=> userName= value,
-        validator: (value){
-          if(value== null || value.isEmpty) {
-          return'campo requerido ';
-          }
-          return null; 
-
-        },
+      CustomTextFormField(
+        label:'Nombre de Usuario',
+        onChanged: (value) => userNameOnChanged(value: value,registerCubit: registerCubit),
+        validador: (value) => userNameValidator(value),
       ),
       const SizedBox(
         height: 20,
       ),
-        CustomTextFormfield(
-        label: 'correo electronico',
-        onChanged: (value)=> email= value,
-        validator: (value){
-          if(value== null || value.trim().isEmpty){
-          return'campo requerido ';}
-          
-          final emailRegExp = RegExp(
-                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-              );
-          if(!emailRegExp.hasMatch(value)){return 'no tiene el formato requerido';}
-          return null; 
-
-        },
+      CustomTextFormField(
+        label:'Correo Electronico',
+        onChanged: (value) => emailOnChange(value: value,registerCubit: registerCubit),
+        validador: (value) => emailValidator(value),
       ),
       const SizedBox(
         height: 20,
       ),
-        CustomTextFormfield(
-        label: 'contraseña',
-        onChanged: (value)=> password= value,
-        obscureText: true,
-        validator: (value){
-          if(value== null || value.trim().isEmpty)
-          {
-          return'campo requerido ';
-          }
-          final emailRegExp = RegExp(
-                r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-              );
-          if(!emailRegExp.hasMatch(value))
-          {
-            return 'no tiene el formato requerido';
-          }
-          return null; 
-        },
+      CustomTextFormField(
+        label:'Contraseña',
+        onChanged: (value) => passswordOnChange(value: value,registerCubit: registerCubit),
+        validador: (value) => passWordValidator(value),
+        obscureTest: true,
       ),
       const SizedBox(
         height: 20,
       ),
       FilledButton.tonalIcon(
                 onPressed:(){
-                  final isValid = _fromkey.currentState!.validate();
-                  print(isValid);
-                  print(_fromkey.currentState!);
-                  if(!isValid) return;
-                  print('$userName,$password,$email');
+                  final isValid = _formKey.currentState!.validate();
+                  if (!isValid) {
+                    registerCubit.onSubmit();
+                  }
+                    
                 }, 
                 icon: const Icon(Icons.save),
                 label: const Text('Save Info')),
-    ],));
 
+    ],));
   }
+
+
+  userNameOnChanged({String value = "", required RegisterCubit registerCubit}) {
+          registerCubit.unserNameChanged(value);
+          _formKey.currentState?.validate();
+        }
+
+  emailOnChange({String value = "", required RegisterCubit registerCubit}) {
+          registerCubit.emailChanged(value);
+          _formKey.currentState?.validate();
+        }
+
+  passswordOnChange({String value = "", required RegisterCubit registerCubit}) {
+          registerCubit.passwordChanged(value);
+          _formKey.currentState?.validate();
+        }
+
+
 }

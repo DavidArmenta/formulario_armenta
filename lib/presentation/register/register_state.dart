@@ -30,7 +30,9 @@ class RegisterFormState extends Equatable {
       password: password?? this.password        )      ;
 
   @override
-  List<Object> get props => [formStatus,unserName,email,password];
+  List<Object> get props => [formStatus,unserName,email,
+  password];
+  
 }
 
 

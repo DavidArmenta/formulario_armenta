@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formulario_armenta/presentation/register/register_cubit.dart';
 import 'package:formulario_armenta/presentation/widgets/registerForm.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -10,8 +12,12 @@ class RegisterScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Nuevo usuario'),
       ),
-      body: const _RegisterView(),
-    );
+      body: BlocProvider(
+        //creamos la instancia de cubic 
+        create: (_)=> RegisterCubit(),
+        child: const _RegisterView(),
+    ),
+      ); 
   }
 }
 
@@ -27,7 +33,7 @@ class _RegisterView extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              const FlutterLogo(size:500),//AQUI PONDRIAMOS EL QUERY DEL CONTEXT PARA EL TAMAÑO
+              const FlutterLogo(size:300),//AQUI PONDRIAMOS EL QUERY DEL CONTEXT PARA EL TAMAÑO
               const RegisterForm(),
               const SizedBox(
                 height: 20,
